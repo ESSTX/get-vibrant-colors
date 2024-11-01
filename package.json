@@ -1,0 +1,11 @@
+{
+  "name": "get-vibrant-colors",
+  "version": "0.0.1",
+  "description": "allows you to get the most saturated and vibrant color from an image",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "esstx",
+  "license": "ISC"
+}
