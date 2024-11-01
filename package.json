@@ -7,5 +7,19 @@
     "build": "tsc"
   },
   "author": "esstx",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ESSTX/get-vibrant-colors.git"
+  },
+  "keywords": [
+    "color",
+    "vibrant",
+    "hex",
+    "canvas"
+  ],
+  "bugs": {
+    "url": "https://github.com/ESSTX/get-vibrant-colors/issues"
+  },
+  "homepage": "https://github.com/ESSTX/get-vibrant-colors#readme"
 }
