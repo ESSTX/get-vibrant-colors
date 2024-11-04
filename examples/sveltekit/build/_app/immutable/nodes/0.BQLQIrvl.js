@@ -1,0 +1,1 @@
+import{c as s,a as i}from"../chunks/disclose-version.S7SXxHOS.js";import{q as p,E as f,v as c,n as d,w as h,x as m,y as u,p as l,h as v,i as _}from"../chunks/runtime.XYFuaPiZ.js";function y(e,a,...n){var r=e,o=d,t;p(()=>{o!==(o=a())&&(t&&(h(t),t=null),t=c(()=>o(r,...n)))},f),m&&(r=u)}function b(e,a){l(a,!0);var n=s(),r=v(n);y(r,()=>a.children),i(e,n),_()}export{b as component};
