@@ -20,7 +20,7 @@ Extracts vibrant colors from an image.
 ## Example
 
 ```typescript
-import { getVibrantColors } from './vibrant';
+import { getVibrantColors } from 'get-vibrant-colors';
 
 const imageUrl = '';
 const maxColors = 5;
