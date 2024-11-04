@@ -25,8 +25,8 @@ export async function getVibrantColors(imageUrl: string, maxColors: number = 5, 
                 let darkColorCount = 0;
                 const darkColorThreshold = 30;
 
-                const tileWidth = Math.floor(canvas.width / gridSize);
-                const tileHeight = Math.floor(canvas.height / gridSize);
+                const tileWidth = canvas.width / gridSize;
+                const tileHeight = canvas.height / gridSize;
 
                 for (let y = 0; y < gridSize; y++) {
                     for (let x = 0; x < gridSize; x++) {
