@@ -32,8 +32,8 @@ export async function getVibrantColors(imageUrl: string, maxColors: number = 5, 
                     for (let x = 0; x < gridSize; x++) {
                         if (skipTiles > 0 && ((x + y) % (skipTiles + 1) === 0)) continue;
 
-                        const centerX = Math.floor((x + 0.5) * tileWidth);
-                        const centerY = Math.floor((y + 0.5) * tileHeight);
+                        const centerX = Math.floor(x * tileWidth + tileWidth / 2);
+                        const centerY = Math.floor(y * tileHeight + tileHeight / 2);
                         const index = (centerY * canvas.width + centerX) * 4;
 
                         const red = imageData.data[index];
