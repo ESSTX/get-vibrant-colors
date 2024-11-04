@@ -1,4 +1,4 @@
-export async function getVibrantColors(imageUrl: string, maxColors: number = 5, sampleScale: number = 0.1, saturationThreshold: number = 60, colorFormat: 'rgb' | 'hex' = 'hex', excludeDarkColors: boolean = false, skipTiles: number = 0, gridSize: number = 6): Promise<{ colors: string[], time: number }> {
+export async function getVibrantColors(imageUrl: string, maxColors: number = 5, sampleScale: number = 0.1, saturationThreshold: number = 60, colorFormat: 'rgb' | 'hex' = 'hex', excludeDarkColors: boolean = false, skipTiles: number = 0, gridSize: number = 6, blur: number = 0): Promise<{ colors: string[], time: number }> {
     const startTime = performance.now();
     return new Promise((resolve, reject) => {
         const image = new Image();
@@ -17,12 +17,16 @@ export async function getVibrantColors(imageUrl: string, maxColors: number = 5, 
             canvas.height = image.height * sampleScale;
             context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
+            if (blur > 0) {
+                context.filter = `blur(${blur}px)`;
+                context.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+            }
+
             try {
                 const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
                 const colorFrequencyMap: Map<string, { count: number; brightness: number; saturation: number }> = new Map();
 
                 let isGrayscale = true;
-                let darkColorCount = 0;
                 const darkColorThreshold = 30;
 
                 const tileWidth = canvas.width / gridSize;
@@ -50,8 +54,6 @@ export async function getVibrantColors(imageUrl: string, maxColors: number = 5, 
 
                         if (saturation < saturationThreshold || (excludeDarkColors && brightness < 60)) continue;
 
-                        if (brightness < darkColorThreshold) darkColorCount++;
-
                         if (colorFrequencyMap.has(hexColor)) {
                             colorFrequencyMap.get(hexColor)!.count++;
                         } else {
@@ -64,19 +66,17 @@ export async function getVibrantColors(imageUrl: string, maxColors: number = 5, 
                     return reject(new Error("Image is fully grayscale"));
                 }
 
-                if (darkColorCount > 100) {
-                    skipTiles += 1;
-                }
-
                 const sortedColors = Array.from(colorFrequencyMap.entries())
                     .sort((a, b) => b[1].brightness - a[1].brightness || b[1].count - a[1].count);
 
                 const uniqueColors = getUniqueColors(sortedColors, maxColors, colorFormat);
 
+                const validColors = uniqueColors.filter(color => /^#[0-9A-F]{6}$/i.test(color));
+
                 const endTime = performance.now();
                 const time = endTime - startTime;
 
-                resolve({ colors: uniqueColors, time });
+                resolve({ colors: validColors, time: Math.floor(time) });
             } catch {
                 reject(new Error("Canvas was tainted by cross-origin data"));
             }
